@@ -28,8 +28,8 @@ from skimage import transform
 import skimage
 
 PIXELS = 60
-FTRAIN = '/Users/msegala/Documents/Personal/Kaggle/National_Data_Science_Bowl/Theano/Train_Data_60x60_pixels.pkl.gz'
-FTEST = '/Users/msegala/Documents/Personal/Kaggle/National_Data_Science_Bowl/Theano/Test_Data_60x60_pixels.pkl.gz'
+FTRAIN = '../Data/Train_Data_60x60_pixels.pkl.gz'
+FTEST = '../Data/Test_Data_60x60_pixels.pkl.gz'
 
 sys.setrecursionlimit(150000)  # for pickle...
 np.random.seed(42)
