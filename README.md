@@ -17,15 +17,6 @@ create <span style="background-color:green">Data_converted/train</span> by runni
 
 create <span style="background-color:green">Data_converted/test</span> by running python gen_test.py
 
-```json
-   // code for coloring
-```
-```html
-   // code for coloring
-```
-```js
-   // code for coloring
-```
-```css
-   // code for coloring
-```
+
+asdsa ```html code for coloring ``` asdsa
+
