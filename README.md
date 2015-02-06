@@ -1,38 +1,18 @@
-SegCORP-Trader
+kaggle- National Data Science Bowl
 ==============
 
-Machine Learning libraries for quantitative trading.
-This package hosts a suit of tools for predicting cryptocurrency prices.
+Code used for competing in National Data Science Bowl
 
 
 Dependicies
 -----------
 
- * python 2.7
- * Theano 0.6.0
- * pandas 0.13.1
- * sklearn 0.15.0
- * numpy 1.8.1
- * matplotlib 1.3.1
- * scipy 0.14.0
- * IPython 1.2.1
- * tweepy (pip install tweepy)
- * pyalgotrade
- * ws4py
- * tornado
- * nose (pip install nose) for unit testing
+ * -e git+https://github.com/benanne/Lasagne.git@6f23af2cd948b00a30c1428798a73ce0ab123dfb#egg=Lasagne
+ * -e git+https://github.com/dnouri/nolearn.git@ad0b167672af14397ac82401ffd259c88e4f0760#egg=nolearn
+ * -e git+https://github.com/lisa-lab/pylearn2.git@2f4537665c9f036c32c80b0c967b49ebb0b5f9ce#egg=pylearn2
 
-Logging into GPU cluster
+
+
+Generating Training and Testing set
 ------------------------
 
-ssh -p 24 segalam@pg62.com
-
-password: RobQuemulg
-
-scp -P 24 mnist.pkl.gz segalam@pg62.com:/home/segalam/Data
-
-nohup sudo THEANO_FLAGS='cuda.root=/opt/cuda,device=gpu,floatX=float32' python2.7 mlp.py > mlp_nohup.out &
-
-ssh -p 24 -L 9000:localhost:8888 segalam@pg62.com (open browser to localhost:9000)
-
-iPython notebooks stored in /var/lib/ipynotebook
