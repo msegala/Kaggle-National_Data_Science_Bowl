@@ -14,7 +14,18 @@ Generating Training and Testing set
 ------------------------
 
 create <span style="background-color:green">Data_converted/train</span> by running python gen_train.py
+
 create <span style="background-color:green">Data_converted/test</span> by running python gen_test.py
 
-
-asdas
+```json
+   // code for coloring
+```
+```html
+   // code for coloring
+```
+```js
+   // code for coloring
+```
+```css
+   // code for coloring
+```
