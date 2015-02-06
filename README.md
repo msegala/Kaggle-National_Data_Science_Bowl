@@ -13,10 +13,11 @@ I created a even folded where these libraries are stored.
 Generating Training and Testing set
 ------------------------
 
-create <span style="background-color:green">Data_converted/train</span> by running python gen_train.py
+create ```Data_converted/train/``` by running ```python gen_train.py```
 
-create <span style="background-color:green">Data_converted/test</span> by running python gen_test.py
+create ```Data_converted/test/``` by running ```python gen_test.py```
 
+Making Final Dataset
+-------------------------
 
-asdsa ```html code for coloring ``` asdsa
-
+Use ipythonasdsa
