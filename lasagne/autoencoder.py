@@ -1,18 +1,22 @@
+
+import numpy
 import numpy as np
 import theano
 import theano.tensor as T
 
-from .. import init
-from .. import nonlinearities
+from lasagne import init
+from lasagne import nonlinearities
 
-from .base import Layer
+#from lasagne.base import *
+from lasagne import *
+from theano.tensor.shared_randomstreams import RandomStreams
 
 
 __all__ = [
     "AutoEncoder",
 ]
 
-class AutoEncoder(Layer):
+class AutoEncoder(layers.Layer):
     """ asdsa """
     def __init__(self, incoming, num_units, n_hidden, W=init.Uniform(), bhid=init.Constant(0.), bvis=init.Constant(0.),
                  nonlinearity=nonlinearities.rectify, **kwargs):
@@ -26,10 +30,13 @@ class AutoEncoder(Layer):
         self.n_hidden = n_hidden
         self.x = incoming
  
-        num_inputs = int(np.prod(self.input_shape[1:]))
- 
-        initial_W = numpy.asarray(
-            numpy_rng.uniform(
+        #num_inputs = int(np.prod(self.input_shape[1:]))
+        num_inputs = num_units
+        rng = np.random.RandomState(123)
+        self.rng = RandomStreams(rng.randint(2 ** 30))
+
+        initial_W = np.asarray(
+            rng.uniform(
                     low=-4 * np.sqrt(6. / (n_hidden + num_units)),
                     high=4 * np.sqrt(6. / (n_hidden + num_units)),
                     size=(num_units, n_hidden)
@@ -37,10 +44,28 @@ class AutoEncoder(Layer):
             dtype=theano.config.floatX
         )
             
-        self.W = self.create_param(initial_W, (num_inputs, n_hidden), name="W")
-        self.bvis = self.create_param(bvis, (num_units,), name="bvis") if bvis is not None else None
-        self.bhid = self.create_param(bhid, (n_hidden,), name="bhid") if bhid is not None else None
+        #self.W = self.create_param(initial_W, (num_inputs, n_hidden), name="W")
+        #self.bvis = self.create_param(bvis, (num_units,), name="bvis") if bvis is not None else None
+        #self.bhid = self.create_param(bhid, (n_hidden,), name="bhid") if bhid is not None else None
+        self.W = theano.shared(value=initial_W, name='W', borrow=True)
  
+        bvis = theano.shared(
+                value=np.zeros(
+                    num_units,
+                    dtype=theano.config.floatX
+                ),
+                borrow=True
+            )
+
+        bhid = theano.shared(
+                value=np.zeros(
+                    n_hidden,
+                    dtype=theano.config.floatX
+                ),
+                name='b',
+                borrow=True
+            )
+
         # b corresponds to the bias of the hidden
         self.b = bhid
         # b_prime corresponds to the bias of the visible
@@ -49,10 +74,14 @@ class AutoEncoder(Layer):
         self.W_prime = self.W.T
         
         
-    def get_corrupted_input(self, input, corruption_level):
-        return self.theano_rng.binomial(size=input.shape, n=1,
+    def get_corrupted_input(self, input, corruption_level = 0.1):
+        print("SIZE ======",input.shape)
+
+        blah = theano.shared(value=np.zeros((28, 28),dtype=theano.config.floatX),)
+
+        return self.rng.binomial(size=(28,28), n=1,
                                         p=1 - corruption_level,
-                                        dtype=theano.config.floatX) * input
+                                        dtype=theano.config.floatX) #* input
  
     def get_hidden_values(self, input):
         """ Computes the values of the hidden layer """
@@ -69,11 +98,11 @@ class AutoEncoder(Layer):
         return [self.b, self.b_prime] if self.b is not None else []
         
     def get_output_shape_for(self, input_shape):
-        return self.n_hidden
+        return (self.n_hidden,self.n_hidden)
  
     def get_output_for(self, input, *args, **kwargs):
  
-        tilde_x = self.get_corrupted_input(self.x, corruption_level)
+        tilde_x = self.get_corrupted_input(self.x, corruption_level = 0.1)
         y = self.get_hidden_values(tilde_x)
         z = self.get_reconstructed_input(y)
         L = - T.sum(self.x * T.log(z) + (1 - self.x) * T.log(1 - z), axis=1)

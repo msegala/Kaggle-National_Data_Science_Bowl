@@ -30,13 +30,22 @@ import skimage
 PIXELS = 60
 FTRAIN = '../Data/Train_Data_60x60_pixels.pkl.gz'
 FTEST = '../Data/Test_Data_60x60_pixels.pkl.gz'
+USE_GPU = False
 
 sys.setrecursionlimit(150000)  # for pickle...
 np.random.seed(42)
 
-Conv2DLayer = layers.cuda_convnet.Conv2DCCLayer
-MaxPool2DLayer = layers.cuda_convnet.MaxPool2DCCLayer
+
+if USE_GPU:
+    Conv2DLayer = layers.cuda_convnet.Conv2DCCLayer
+    MaxPool2DLayer = layers.cuda_convnet.MaxPool2DCCLayer
+else:
+    Conv2DLayer = layers.Conv2DLayer
+    MaxPool2DLayer = layers.MaxPool2DLayer
+
 Maxout = layers.pool.FeaturePoolLayer
+#Shape = layers.shape.reshape
+
 
 SPECIALIST_SETTINGS = [dict(columns=('ALL',),),]
 
