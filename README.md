@@ -29,6 +29,15 @@ Create Final Dataset
 Within ```Fish Bowl.ipynb``` run steps 1 & 2 to create the training and testing set needed as inputs to the CNNs.
 
 
+Pretrain the network
+---------------------
+
+We can perform unsupervised pre-training on the network by running the exact network used for training BUT we use regression and the labels are the same as the input features. The pre-training is ran with the full test + train set and the weights of the network are saved into a pickled object. These weights are then used to initialize the true training network.  
+
+```python2.7 run_autoencoder.py fit```
+
+THIS MADE NO IMPROVEMENT SO WILL NOT CONTINUE TO DO IT
+
 Train the network
 --------------------
 
