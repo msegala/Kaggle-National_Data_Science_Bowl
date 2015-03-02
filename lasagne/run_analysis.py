@@ -40,13 +40,13 @@ net = NeuralNet(
     conv3_num_filters=128, conv3_filter_size=(3, 3), pool3_ds=(2, 2),
     dropout3_p=0.2,
 
+    hidden4_num_units=2048,
+    dropout4_p=0.5,
+    maxout4_ds=2,
+    
     hidden5_num_units=2048,
     dropout5_p=0.5,
     maxout5_ds=2,
-    
-    hidden6_num_units=2048,
-    dropout6_p=0.5,
-    maxout6_ds=2,
 
     output_num_units=121, 
     output_nonlinearity=nonlinearities.softmax,
