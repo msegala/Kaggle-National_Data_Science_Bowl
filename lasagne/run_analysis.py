@@ -1,6 +1,6 @@
 """
 To use this script:
-	> python run_analysis.py fit 
+	> sudo THEANO_FLAGS='cuda.root=/opt/cuda,device=gpu,floatX=float32' python2.7 fit
 	This will save the output to net-specialists.pickle
 
 	 -OR-
@@ -14,7 +14,6 @@ from helpers import *
 net = NeuralNet(
     layers=[
         ('input', layers.InputLayer),
-        #('noise1', layers.GaussianNoiseLayer),
         ('conv1', Conv2DLayer),
         ('pool1', MaxPool2DLayer),
         ('dropout1', layers.DropoutLayer),
@@ -24,35 +23,28 @@ net = NeuralNet(
         ('conv3', Conv2DLayer),
         ('pool3', MaxPool2DLayer),
         ('dropout3', layers.DropoutLayer),
-        ('conv4', Conv2DLayer),
-        ('pool4', MaxPool2DLayer),
+        ('hidden4', layers.DenseLayer),
         ('dropout4', layers.DropoutLayer),
+        ('maxout4', Maxout),
         ('hidden5', layers.DenseLayer),
         ('dropout5', layers.DropoutLayer),
         ('maxout5', Maxout),
-        ('hidden6', layers.DenseLayer),
-        ('dropout6', layers.DropoutLayer),
-        ('maxout6', Maxout),
         ('output', layers.DenseLayer),
         ],
 
     input_shape=(None, 1, PIXELS, PIXELS),
-    conv1_num_filters=208, conv1_filter_size=(6, 6), pool1_ds=(2, 2),
+    conv1_num_filters=32, conv1_filter_size=(4, 4), pool1_ds=(2, 2),
     dropout1_p=0.2,
-    conv2_num_filters=384, conv2_filter_size=(4, 4), pool2_ds=(2, 2),
+    conv2_num_filters=64, conv2_filter_size=(3, 3), pool2_ds=(2, 2),
     dropout2_p=0.2,
-    conv3_num_filters=512, conv3_filter_size=(3, 3), pool3_ds=(2, 2),
+    conv3_num_filters=128, conv3_filter_size=(3, 3), pool3_ds=(2, 2),
     dropout3_p=0.2,
-    conv4_num_filters=896, conv4_filter_size=(3, 3), pool4_ds=(2, 2),
-    dropout4_p=0.2,
 
-    #conv1_untie_biases = True,conv2_untie_biases = True,conv3_untie_biases = True,conv4_untie_biases = True,
-
-    hidden5_num_units=8192,
+    hidden5_num_units=2048,
     dropout5_p=0.5,
     maxout5_ds=2,
     
-    hidden6_num_units=8192,
+    hidden6_num_units=2048,
     dropout6_p=0.5,
     maxout6_ds=2,
 
@@ -63,16 +55,14 @@ net = NeuralNet(
     update_momentum=theano.shared(float32(0.9)),
 
     regression=False,
-    #batch_iterator_train=FlipBatchIterator(batch_size=128),
     batch_iterator_train=DataAugmentationBatchIterator(batch_size=128),
     on_epoch_finished=[
         AdjustVariable('update_learning_rate', start=0.03, stop=0.0001),
-        #AdjustVariable('update_momentum', start=0.9, stop=0.999),
         EarlyStopping(patience=20),
         ],
-    max_epochs=60,
+    max_epochs=10,
     verbose=1,
-    eval_size=0.1
+    eval_size=0.2
     )
 
 
