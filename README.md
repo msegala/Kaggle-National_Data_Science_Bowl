@@ -68,3 +68,15 @@ Blended augmented predictions
 
 To generate predictions for a multiple models averaged together run step 4 within ```Fish Bowl.ipynb```
 
+Train and Predict all models
+---------------------
+
+In the end I trained 8 different models, to train and predict all of these at once run ```./run_all.sh``` and ```./predict_all.sh```
+
+
+Lessons Learned
+-------------
+
+Throughout the competition I had repeated issues with data augmentation, I was only able to achieve good results with the rotation of [0,90,180,270]. 
+The background in the images is white (255) and opencv/scikit-image assume by default that it is black (0). Therefore, we can invert the images with
+```im = np.invert(im)``` when loading in the images. 

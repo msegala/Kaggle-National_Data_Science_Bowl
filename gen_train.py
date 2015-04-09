@@ -2,8 +2,8 @@ import os
 import sys
 import subprocess
 
-fi = "/Users/msegala/Documents/Personal/Kaggle-National_Data_Science_Bowl/Data/train/"
-fo = "/Users/msegala/Documents/Personal/Kaggle-National_Data_Science_Bowl/Data_converted/train/"
+fi = "/Users/michaelsegala/Documents/GIT_CODE/Kaggle-National_Data_Science_Bowl/Data/train/"
+fo = "/Users/michaelsegala/Documents/GIT_CODE/Kaggle-National_Data_Science_Bowl/Data_converted/train/"
 
 cmd = "-resize 60x60 -gravity center -background white -extent 60x60" 
 
